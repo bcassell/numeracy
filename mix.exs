@@ -27,6 +27,6 @@ defmodule Numeracy.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:exactor, "~> 2.2.2"}]
   end
 end
