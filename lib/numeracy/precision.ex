@@ -1,23 +1,6 @@
 defmodule Numeracy.Precision do
-  use GenServer
 
-  # Radix
-
-  def handle_call(:radix, _from, state), do: handle_call_internal(:radix, state, compute_radix)
-
-  def handle_call(:machine_precision, _from, state), do: handle_call_internal(:machine_precision, state, compute_machine_precision(state))
-
-  def handle_call(:negative_machine_precision, _from, state), do: handle_call_internal(:negative_machine_precision, state, compute_negative_machine_precision(state))
-
-
-  defp handle_call_internal(key, state, func) do
-    unless Map.get(state, key) do
-      state = Map.put_new(state, key, func)
-    end
-    {:reply, state[key], state} 
-  end
-
-  defp compute_radix() do
+  def compute_radix() do
     a = 1.0
     a = compute_radix_a(a, 0)
     b = 1.0
@@ -41,31 +24,29 @@ defmodule Numeracy.Precision do
     compute_radix(a, b, round(tmp - a))
   end
 
-  defp compute_machine_precision(state) do
-    { _, radix, _ } = handle_call(:radix, nil, state)
+  def compute_machine_precision(radix) do
     inverse_radix = 1.0 / radix
     machine_precision = 1.0
     acc = 1.0 + machine_precision
     compute_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  defp compute_machine_precision(machine_precision, _, acc) when acc - 1.0 == 0.0, do: machine_precision
+  def compute_machine_precision(machine_precision, _, acc) when acc - 1.0 == 0.0, do: machine_precision
 
-  defp compute_machine_precision(machine_precision, inverse_radix, _) do
+  def compute_machine_precision(machine_precision, inverse_radix, _) do
     machine_precision = machine_precision * inverse_radix
     acc = 1.0 + machine_precision
     compute_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  defp compute_negative_machine_precision(state) do
-    { _, radix, _ } = handle_call(:radix, nil, state)
+  def compute_negative_machine_precision(radix) do
     inverse_radix = 1.0 / radix
     machine_precision = 1.0
     acc = 1.0 - machine_precision
     compute_negative_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  defp compute_negative_machine_precision(machine_precision, inverse_radix, _) do
+  def compute_negative_machine_precision(machine_precision, inverse_radix, _) do
     machine_precision = machine_precision * inverse_radix
     acc = 1.0 - machine_precision
     compute_machine_precision(machine_precision, inverse_radix, acc)
