@@ -89,7 +89,7 @@ defmodule Numeracy.Precision do
     norm < precision || abs(a - b) < precision * norm
   end
 
-    # Determine if numbers are within a given precision
+  # Determine if numbers are within the default precision
   def equal(a, b) do
     precision = default_precision()
     equal(a, b, precision)
