@@ -1,7 +1,12 @@
 defmodule Numeracy.Precision do
+  @moduledoc """
+  Algorithms for computing different measures of precision
+  """
 
-  # Radix - the base that your computer is in
-  def radix() do
+  @doc """
+  Radix - the base that your computer is in
+  """
+  def radix do
     a = 1.0
     a = compute_radix_helper(a, 0)
     b = 1.0
@@ -23,7 +28,9 @@ defmodule Numeracy.Precision do
     compute_radix(a, b, round(tmp - a))
   end
 
-  # Machine precision - the smallest increment between two successive floating point numbers
+  @doc """
+  Machine precision - the smallest increment between two successive floating point numbers
+  """
   def machine_precision(radix) do
     inverse_radix = 1.0 / radix
     machine_precision = 1.0
@@ -31,16 +38,19 @@ defmodule Numeracy.Precision do
     compute_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  def machine_precision(), do: machine_precision(radix())
+  def machine_precision, do: machine_precision(radix())
 
   defp compute_machine_precision(machine_precision, _, acc) when acc - 1.0 == 0.0, do: machine_precision
+
   defp compute_machine_precision(machine_precision, inverse_radix, _) do
     machine_precision = machine_precision * inverse_radix
     acc = 1.0 + machine_precision
     compute_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  # Negative machine precision - the smallest decrement between two successive floating point numbers
+  @doc """
+  Negative machine precision - the smallest decrement between two successive floating point numbers
+  """
   def negative_machine_precision(radix) do
     inverse_radix = 1.0 / radix
     machine_precision = 1.0
@@ -54,22 +64,31 @@ defmodule Numeracy.Precision do
     compute_machine_precision(machine_precision, inverse_radix, acc)
   end
 
-  # Smallest number - the smallest representable positive number
+  @doc """
+  Smallest number - the smallest representable positive number
+  """
   def smallest_number(radix, negative_machine_precision) do
-    inverse_radix = 1.0/radix
+    inverse_radix = 1.0 / radix
     full_mantissa_number = 1.0 - radix * negative_machine_precision
     compute_smallest_number(full_mantissa_number, inverse_radix)
   end
 
-  defp compute_smallest_number(full_mantissa_number, inverse_radix) when full_mantissa_number * inverse_radix == 0.0, do: full_mantissa_number
-  defp compute_smallest_number(full_mantissa_number, inverse_radix), do: compute_smallest_number(full_mantissa_number * inverse_radix, inverse_radix)
+  defp compute_smallest_number(full_mantissa_number, inverse_radix) when full_mantissa_number * inverse_radix == 0.0 do
+    full_mantissa_number
+  end
 
-# Largest number - the largest representable positive number
+  defp compute_smallest_number(full_mantissa_number, inverse_radix) do
+    compute_smallest_number(full_mantissa_number * inverse_radix, inverse_radix)
+  end
+
+  @doc """
+  Largest number - the largest representable positive number
+  """
   def largest_number(radix, negative_machine_precision) do
     full_mantissa_number = 1.0 - radix * negative_machine_precision
     compute_largest_number(full_mantissa_number, radix)
   end
- 
+
   defp compute_largest_number(full_mantissa_number, radix) do
     try do
       compute_largest_number(full_mantissa_number * radix, radix)
@@ -79,17 +98,23 @@ defmodule Numeracy.Precision do
     end
   end
 
-  # Default precision - the relative precision that can be expected of a generic mathematical computation
+  @doc """
+  Default precision - the relative precision that can be expected of a generic mathematical computation
+  """
   def default_precision(machine_precision), do: :math.sqrt(machine_precision)
-  def default_precision(), do: default_precision(machine_precision())
+  def default_precision, do: default_precision(machine_precision())
 
-  # Determine if numbers are within a given precision
+  @doc """
+  Determine if numbers are within a given precision
+  """
   def equal(a, b, precision) do
-    norm = max(abs(a), abs(b)) 
+    norm = max(abs(a), abs(b))
     norm < precision || abs(a - b) < precision * norm
   end
 
-  # Determine if numbers are within the default precision
+  @doc """
+  Determine if numbers are within the default precision
+  """
   def equal(a, b) do
     precision = default_precision()
     equal(a, b, precision)

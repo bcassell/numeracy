@@ -35,16 +35,16 @@ defmodule PrecisionTest do
   end
 
   test "when numbers are within a specified precision, they are considered equal" do
-    assert equal(1.05, 1.1, 0.1) == true
+    assert equal(1.05, 1.1, 0.1)
   end
 
   test "when numbers are not within a specified precision, they are not considered equal" do
-    assert equal(1, 2, 0.1) == false
+    refute equal(1, 2, 0.1)
   end
 
   test "when precision is not specified, equal uses the default_precision" do
     machine_precision = 1.1102230246251565e-16
-    assert equal(1, 1 + default_precision(machine_precision)) == true
-    assert equal(1, 1 + default_precision(machine_precision) + machine_precision) == false
+    assert equal(1, 1 + default_precision(machine_precision))
+    refute equal(1, 1 + default_precision(machine_precision) + machine_precision)
   end
 end
