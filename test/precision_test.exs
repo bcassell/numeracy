@@ -47,4 +47,12 @@ defmodule PrecisionTest do
     assert equal(1, 1 + default_precision(machine_precision))
     refute equal(1, 1 + default_precision(machine_precision) + machine_precision)
   end
+
+  test "can compute largest exponential argument" do
+    assert largest_exponential_argument() == :math.log(1.7976931348623155e308)
+  end
+
+  test "can round to a specified precision" do
+    assert equal(round_to(2.3456, 0.1), 2.3)
+  end
 end

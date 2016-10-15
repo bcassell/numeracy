@@ -1,3 +1,4 @@
-%{"dogma": {:hex, :dogma, "0.1.9", "8f71a6afbae12ef50248a84916db6d4084d0e50aae069c49dbe124d513b71425", [:mix], [{:poison, ">= 2.0.0", [hex: :poison, optional: false]}]},
+%{"dialyxir": {:hex, :dialyxir, "0.3.5", "eaba092549e044c76f83165978979f60110dc58dd5b92fd952bf2312f64e9b14", [:mix], []},
+  "dogma": {:hex, :dogma, "0.1.9", "8f71a6afbae12ef50248a84916db6d4084d0e50aae069c49dbe124d513b71425", [:mix], [{:poison, ">= 2.0.0", [hex: :poison, optional: false]}]},
   "exactor": {:hex, :exactor, "2.2.2", "90b27d72c05614801a60f8400afd4e4346dfc33ea9beffe3b98a794891d2ff96", [:mix], []},
   "poison": {:hex, :poison, "3.0.0", "625ebd64d33ae2e65201c2c14d6c85c27cc8b68f2d0dd37828fde9c6920dd131", [:mix], []}}

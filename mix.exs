@@ -27,6 +27,6 @@ defmodule Numeracy.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:exactor, "~> 2.2.2"}, {:dogma, "~> 0.1", only: :dev}]
+    [{:exactor, "~> 2.2.2"}, {:dogma, "~> 0.1", only: :dev}, {:dialyxir, "~> 0.3.5", only: [:dev]}]
   end
 end
